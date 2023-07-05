@@ -1,5 +1,6 @@
 package com.globantu.automation.karen_vivas.pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,6 +27,28 @@ public class HomePage extends BasePage{
     private WebElement flights;
     @FindBy(css = "a[href*='/user/logout']")
     private WebElement signOutBtn;
+    @FindBy(css = "[data-stid='origin_select-menu-trigger']")
+    private WebElement originField;
+    @FindBy(css = "[data-stid='origin_select-menu-input']")
+    private WebElement originBox;
+    @FindBy(css = "[data-stid='destination_select-menu-trigger']")
+    private WebElement destinationField;
+    @FindBy(css = "[data-stid='destination_select-menu-input']")
+    private WebElement destinationBox;
+    @FindBy(css = "#date_form_field-btn")
+    private WebElement dateField;
+    @FindBy(css = ".uitk-date-picker-weeks .uitk-date-picker-day-number.uitk-date-picker-first-of-month")
+    private WebElement firstDate;
+    @FindBy(css = "#FlightSearchForm_ROUND_TRIP .uitk-calendar button:nth-child(2)")
+    private WebElement nextMonthBtn;
+    @FindBy(css = "[data-stid='open-room-picker']")
+    private WebElement travelersBtn;
+    @FindBy(css = "[data-stid='travelers_selector_done_button']")
+    private WebElement doneTravelersBtn;
+    @FindBy(css = "[data-stid='apply-date-picker']")
+    private WebElement doneDateBtn;
+    @FindBy(css = "#search_button")
+    private WebElement searchBtn;
 
     public void goToHomePage(){
         driver.get(url);
@@ -48,5 +71,26 @@ public class HomePage extends BasePage{
         signInOption.click();
     return new LoginPage(driver);
     }
-
+    public void goFlightsSearch(){
+        flights.click();
+    }
+    public void selectOrigin(String origin){
+        originField.click();
+        originBox.sendKeys(origin);
+        originBox.sendKeys(Keys.ENTER);
+    }
+    public void selectDest(String destination){
+        destinationField.click();
+        destinationBox.sendKeys(destination);
+        destinationBox.sendKeys(Keys.ENTER);
+    }
+    public void selectDate(){
+        dateField.click();
+        firstDate.click();
+        doubleClickElement(nextMonthBtn);
+        firstDate.click();
+    }
+    public void clickDoneDate(){
+        doneDateBtn.click();
+    }
 }
