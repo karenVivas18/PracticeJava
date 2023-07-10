@@ -1,5 +1,6 @@
 package com.globantu.automation.karen_vivas.commun;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -13,8 +14,8 @@ public class DriverManager {
                 driver = new FirefoxDriver();
                 break;
             case "chrome":
-                System.setProperty("webdriver.chrome.driver", "path/to/chromedriver");
-                driver = new ChromeDriver();
+                driver = WebDriverManager.chromedriver().create();
+                driver.manage().window().maximize();
                 break;
             default:
                 break;

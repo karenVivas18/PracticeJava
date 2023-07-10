@@ -9,6 +9,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.sql.Driver;
+import java.util.concurrent.TimeUnit;
 
 public class TravelPageTest {
     DriverManager driver;
@@ -21,13 +22,17 @@ public class TravelPageTest {
         home = new HomePage(driver.getDriver(), url);
     }
 
-    @Test
+    @Test()
     public void booking(){
         if (home.isUserLogged()){
             home.logOut();
         }
     //Search for a flight from LAS to LAX, 1 adult (clicking on Flight/Roundtrip). Dates should be at least two month in the future and MUST be selected using the datepicker calendar.
-
+    home.goFlightsSearch();
+    home.selectOrigin("LAS");
+    home.selectDest("LAX");
+    home.selectDate();
+    home.clickDoneDate();
 
     }
 }

@@ -93,4 +93,7 @@ public class HomePage extends BasePage{
     public void clickDoneDate(){
         doneDateBtn.click();
     }
+    public void selectGTravelers(){
+        
+    }
 }
