@@ -13,6 +13,7 @@ public class LoginPage extends BasePage {
 
     @FindBy(css = "#loginFormSubmitButton")
     private WebElement loginButton;
+
     /**
      * Constructor.
      *

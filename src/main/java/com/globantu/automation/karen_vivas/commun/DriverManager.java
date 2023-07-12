@@ -7,6 +7,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverManager {
     private WebDriver driver;
+
     public DriverManager(String browser) {
         switch (browser) {
             case "firefox":
@@ -21,6 +22,7 @@ public class DriverManager {
                 break;
         }
     }
+
     public WebDriver getDriver() {
         return this.driver;
     }
