@@ -36,4 +36,19 @@ public abstract class Actions implements ISelect  {
                .stream()
                .map(WebElement::getText).collect(Collectors.toList());
     }
+    public  List<WebElement> getAllElementByDataId(String dataValue){
+        return findElementsInList(By.cssSelector("[data-test-id= " + Quotes.escape(dataValue) + "]"));
+    }
+
+    public  WebElement getElementByIndex(int index ,String dataValue ){
+        List<WebElement> elements = this.getAllElementByDataId(dataValue);
+            return elements.get(index);
+    }
+    public int convertDurationToMinutes(String duration){
+        String[] parts = duration.split("h|\\s");
+        int hours = Integer.parseInt(parts[0]);
+        int minutes = Integer.parseInt(parts[1]);
+        return hours *60 + minutes;
+    }
+
 }

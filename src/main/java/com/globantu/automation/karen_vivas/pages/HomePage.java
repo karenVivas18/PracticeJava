@@ -69,6 +69,10 @@ public class HomePage extends BasePage {
     private WebElement sortDropDown;
     @FindBy(css = "[data-test-id='price-column']")
     private WebElement priceColumn;
+    @FindBy(css = "[data-test-id='select-button']")
+    private WebElement selectButton;
+    @FindBy(css = "[data-test-id='intersection-observer']")
+    private WebElement intersection;
 
     private Actions actions;
 
@@ -98,7 +102,9 @@ public class HomePage extends BasePage {
         signInOption.click();
         return new LoginPage(driver);
     }
-
+    public void clickSelectBtn(){
+        selectButton.click();
+    }
     public void goFlightsSearch() {
         new WebDriverWait(driver, 20);
         flights.click();
@@ -168,5 +174,81 @@ public class HomePage extends BasePage {
     public void clickOptionSort(String value) {
         WebElement optionSort = actions.findOptionsByValue(value);
         optionSort.click();
+    }
+
+    public List<String> getPriceValue(){
+      return  actions.getAllValuesByDataId("price-column");
+    }
+    public List<String> getJourneyDuration(){
+      return  actions.getAllValuesByDataId("journey-duration");
+    }
+
+    public boolean isDurationSorted() {
+        List<String> durations = this.getJourneyDuration();
+        int first = Integer.parseInt(durations.get(0));
+        for (int i = 1; i < durations.size(); i++) {
+            int current = Integer.parseInt(durations.get(i));
+            if (first > current) {
+                return false;
+            }
+            first = current;
+        }
+        return true;
+    }
+    //using stream
+    public boolean isFlightDurationSorted(){
+        List<String> durations = this.getJourneyDuration();
+        return IntStream.range(1,durations.size())
+                .allMatch(i->{
+                   int firstDuration = Integer.parseInt(durations.get(i-1));
+                   int currentDuration = Integer.parseInt(durations.get(i));
+                    return firstDuration >= currentDuration;
+                });
+    }
+
+    public boolean isPriceSorted(){
+        List<String> prices = this.getPriceValue();
+        double firstPrice = Double.parseDouble(prices.get(0).substring(1));
+
+        for(int i = 1 ; i <prices.size() ; i ++ ){
+            double currentPrice = Double.parseDouble(prices.get(i).substring(1));
+            if (currentPrice < firstPrice){
+                return false;
+            }
+             currentPrice = firstPrice;
+        }
+        return true;
+    }
+
+    //using IntStream
+
+    public boolean isPriceSortedAsc(){
+        List<String> prices = this.getPriceValue();
+        return  IntStream.range(1,prices.size())
+                .allMatch(i -> {
+                    double firstPrice = Double.parseDouble(prices.get(i - 1).substring(1));
+                    double currentPrice = Double.parseDouble(prices.get(i).substring(1));
+                    return firstPrice >= currentPrice;
+                });
+    }
+
+    public void selectFirstOptionFromList(){
+       List<WebElement> flightsList =  actions.getAllElementByDataId("intersection-observer" + " button");
+       if (!flightsList.isEmpty()){
+           WebElement firstElement = flightsList.get(0);
+           firstElement.click();
+       }
+    }
+// using stream
+    public void selectFirstOptionFromLists(){
+        actions.getAllElementByDataId("intersection-observer" + " button")
+                .stream()
+                .findFirst()
+                .ifPresent(WebElement::click);
+    }
+    public void selectOptionFromList(int index){
+        waitElementVisible(intersection);
+        WebElement element = actions.getElementByIndex(index, "intersection-observer" + " button");
+        element.click();
     }
 }

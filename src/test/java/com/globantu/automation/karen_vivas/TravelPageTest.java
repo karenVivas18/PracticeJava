@@ -36,7 +36,12 @@ public class TravelPageTest {
         home.clickSearch();
         Assert.assertTrue("contain Las Vegas", home.flyingFromResult().contains("Las Vegas"));
         Assert.assertTrue("contain Los Angeles", home.flyingToResult().contains("Los Angeles"));
+        home.clickSortBy();
         home.clickOptionSort("DURATION_INCREASING");
+        home.isFlightDurationSorted();
+        home.selectFirstOptionFromLists();
+        home.clickSelectBtn();
 
+        home.selectOptionFromList(3);
     }
 }
